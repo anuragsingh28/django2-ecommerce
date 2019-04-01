@@ -1,12 +1,16 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from .forms import ContactForm, LoginForm
+from .forms import ContactForm, LoginForm, RegisterForm
 
 
 def home_page(request):
     context = {
         'title': 'Hello World',
+        'content': 'Great',
     }
+    if request.user.is_authenticated:
+        context['premium_content'] = 'Yaaaaa Premium'
     return render(request, 'home_page.html', context)
 
 
@@ -55,5 +59,20 @@ def login_page(request):
     return render(request, "auth/login.html", context)
 
 
-def logout_page(request):
-    return render(request, "auth/logout.html", {})
+#User = get_user_model
+
+
+def register_page(request):
+    register_form = RegisterForm(request.POST or None)
+    context = {
+        'form': register_form,
+    }
+    if register_form.is_valid():
+        print(register_form.cleaned_data)
+        username = register_form.cleaned_data.get('username')
+        email = register_form.cleaned_data.get('email')
+        password = register_form.cleaned_data.get('password')
+        new_user = User.objects.create_user(username, email, password)
+        print(new_user)
+
+    return render(request, "auth/register.html", context)

@@ -18,6 +18,25 @@
         <h1>{{ title }}</h1>
         <h1>Hello, world!</h1>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p> {{content}} </p>
+            </div>
+        </div>
+
+        {% if premium_content %}
+
+
+        <div class="row">
+            <div class="col">
+                <h1>Premium</h1>
+                <p> {{premium_content}} </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
